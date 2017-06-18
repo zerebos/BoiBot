@@ -1,0 +1,176 @@
+newusers at 2017-06-02 02:51:53.473492: Called by: Zerebos#7790 (ID: 249746236008169473) in Channel: general (ID: 292141134614888448)
+Guild: Zere's Place (ID: 292141134614888448). More info: ```py
+Traceback (most recent call last):
+  File "C:\Users\Zack\AppData\Local\Programs\Python\Python36-32\lib\site-packages\discord\ext\commands\core.py", line 50, in wrapped
+    ret = yield from coro(*args, **kwargs)
+  File "C:\Users\Zack\PycharmProjects\BotTemplate\cogs\meta.py", line 251, in newusers
+    body = 'joined {0}, created {1}'.format(human_timedelta(member.joined_at),
+NameError: name 'human_timedelta' is not defined
+
+```
+leaders at 2017-06-02 05:19:37.995514: Called by: Zerebos#7790 (ID: 249746236008169473) in Channel: general (ID: 292141134614888448)
+Guild: Zere's Place (ID: 292141134614888448). More info: ```py
+Traceback (most recent call last):
+  File "C:\Users\Zack\AppData\Local\Programs\Python\Python36-32\lib\site-packages\discord\ext\commands\core.py", line 50, in wrapped
+    ret = yield from coro(*args, **kwargs)
+  File "C:/Users/Zack/PycharmProjects/VeteranKenji/VeteranKenji.py", line 118, in leaders
+    peeps.append(' | '.join(info))
+TypeError: sequence item 0: expected str instance, Member found
+
+```
+report at 2017-06-03 05:04:44.410201: Called by: Zerebos#7790 (ID: 249746236008169473) in Channel: class_3-3 (ID: 318628147673169921)
+Guild: Katawa Shoujo (ID: 318628147673169921). More info: ```py
+Traceback (most recent call last):
+  File "C:\Users\Zack\AppData\Local\Programs\Python\Python36-32\lib\site-packages\discord\ext\commands\core.py", line 50, in wrapped
+    ret = yield from coro(*args, **kwargs)
+  File "C:/Users/Zack/PycharmProjects/Mutou/Mutou.py", line 155, in report
+    await bot.send_message(bot.get_channel(channel), ctx.message.author, ctx.message.channel)
+TypeError: send_message() takes from 2 to 3 positional arguments but 4 were given
+
+```
+report at 2017-06-03 05:06:50.701425: Called by: Zerebos#7790 (ID: 249746236008169473) in Channel: class_3-3 (ID: 318628147673169921)
+Guild: Katawa Shoujo (ID: 318628147673169921). More info: ```py
+Traceback (most recent call last):
+  File "C:\Users\Zack\AppData\Local\Programs\Python\Python36-32\lib\site-packages\discord\ext\commands\core.py", line 50, in wrapped
+    ret = yield from coro(*args, **kwargs)
+  File "C:/Users/Zack/PycharmProjects/Mutou/Mutou.py", line 155, in report
+    await bot.send_message(ctx.server.get_channel(channel), fmt.format(ctx.message.author, ctx.message.channel))
+AttributeError: 'Context' object has no attribute 'server'
+
+```
+report at 2017-06-03 05:35:30.419787: Called by: Zerebos#7790 (ID: 249746236008169473) in Channel: class_3-3 (ID: 318628147673169921)
+Guild: Katawa Shoujo (ID: 318628147673169921). More info: ```py
+Traceback (most recent call last):
+  File "C:\Users\Zack\AppData\Local\Programs\Python\Python36-32\lib\site-packages\discord\ext\commands\core.py", line 50, in wrapped
+    ret = yield from coro(*args, **kwargs)
+  File "C:\Users\Zack\PycharmProjects\Mutou\cogs\moderation.py", line 59, in report
+    await self.bot.send_message(ctx.author, "Thank you for your report, it is under review.")
+AttributeError: 'Context' object has no attribute 'author'
+
+```
+report at 2017-06-03 05:35:40.280351: Called by: Zerebos#7790 (ID: 249746236008169473) in Channel: class_3-3 (ID: 318628147673169921)
+Guild: Katawa Shoujo (ID: 318628147673169921). More info: ```py
+Traceback (most recent call last):
+  File "C:\Users\Zack\AppData\Local\Programs\Python\Python36-32\lib\site-packages\discord\ext\commands\core.py", line 50, in wrapped
+    ret = yield from coro(*args, **kwargs)
+  File "C:\Users\Zack\PycharmProjects\Mutou\cogs\moderation.py", line 59, in report
+    await self.bot.send_message(ctx.author, "Thank you for your report, it is under review.")
+AttributeError: 'Context' object has no attribute 'author'
+
+```
+viewrules at 2017-06-03 23:42:21.479663: Called by: Zerebos#7790 (ID: 249746236008169473) in Channel: general (ID: 292141134614888448)
+Guild: Zere's Place (ID: 292141134614888448). More info: ```py
+Traceback (most recent call last):
+  File "C:\Users\Zack\AppData\Local\Programs\Python\Python36-32\lib\site-packages\discord\ext\commands\core.py", line 50, in wrapped
+    ret = yield from coro(*args, **kwargs)
+  File "C:\Users\Zack\PycharmProjects\Mutou\cogs\rules.py", line 50, in viewrules
+    rules = server_data.get(channel.id, [])
+AttributeError: 'str' object has no attribute 'id'
+
+```
+viewrules at 2017-06-03 23:43:03.633074: Called by: Zerebos#7790 (ID: 249746236008169473) in Channel: general (ID: 292141134614888448)
+Guild: Zere's Place (ID: 292141134614888448). More info: ```py
+Traceback (most recent call last):
+  File "C:\Users\Zack\AppData\Local\Programs\Python\Python36-32\lib\site-packages\discord\ext\commands\core.py", line 50, in wrapped
+    ret = yield from coro(*args, **kwargs)
+  File "C:\Users\Zack\PycharmProjects\Mutou\cogs\rules.py", line 59, in viewrules
+    e.add_field(name=server.get_channel(channel).mention, value=rule_string)
+AttributeError: 'NoneType' object has no attribute 'mention'
+
+```
+rules at 2017-06-04 00:23:23.774498: Called by: Rin#3346 (ID: 265395782021152770) in Channel: class_3-3 (ID: 318628147673169921)
+Guild: Katawa Shoujo (ID: 318628147673169921). More info: ```py
+Traceback (most recent call last):
+  File "C:\Users\Zack\AppData\Local\Programs\Python\Python36-32\lib\site-packages\discord\ext\commands\core.py", line 50, in wrapped
+    ret = yield from coro(*args, **kwargs)
+  File "C:\Users\Zack\PycharmProjects\Mutou\cogs\rules.py", line 99, in rules
+    test = checks.check_permissions(ctx, perms)
+  File "C:\Users\Zack\PycharmProjects\Mutou\bot_utils\checks.py", line 35, in check_permissions
+    return all(getattr(resolved, name, None) == value for name, value in perms.items())
+AttributeError: 'Permissions' object has no attribute 'items'
+
+```
+rules at 2017-06-04 00:27:55.092016: Called by: Zerebos#7790 (ID: 249746236008169473) in Channel: general (ID: 292141134614888448)
+Guild: Zere's Place (ID: 292141134614888448). More info: ```py
+Traceback (most recent call last):
+  File "C:\Users\Zack\AppData\Local\Programs\Python\Python36-32\lib\site-packages\discord\ext\commands\core.py", line 50, in wrapped
+    ret = yield from coro(*args, **kwargs)
+  File "C:\Users\Zack\PycharmProjects\Mutou\cogs\rules.py", line 99, in rules
+    test = checks.check_permissions(ctx, manage_server=True)
+TypeError: check_permissions() got an unexpected keyword argument 'manage_server'
+
+```
+rules at 2017-06-04 01:01:03.855767: Called by: Zerebos#7790 (ID: 249746236008169473) in Channel: class_3-3 (ID: 318628147673169921)
+Guild: Katawa Shoujo (ID: 318628147673169921). More info: ```py
+Traceback (most recent call last):
+  File "C:\Users\Zack\AppData\Local\Programs\Python\Python36-32\lib\site-packages\discord\ext\commands\core.py", line 50, in wrapped
+    ret = yield from coro(*args, **kwargs)
+  File "C:\Users\Zack\PycharmProjects\Mutou\cogs\rules.py", line 104, in rules
+    destination = ctx.author
+AttributeError: 'Context' object has no attribute 'author'
+
+```
+addrule at 2017-06-04 01:21:02.529327: Called by: Zerebos#7790 (ID: 249746236008169473) in Channel: class_3-3 (ID: 318628147673169921)
+Guild: Katawa Shoujo (ID: 318628147673169921). More info: ```py
+Traceback (most recent call last):
+  File "C:\Users\Zack\AppData\Local\Programs\Python\Python36-32\lib\site-packages\discord\ext\commands\core.py", line 50, in wrapped
+    ret = yield from coro(*args, **kwargs)
+  File "C:\Users\Zack\PycharmProjects\Mutou\cogs\rules.py", line 36, in addrule
+    key = discord.utils.find(lambda c: c.name == channel, ctx.message.server.channels).id
+AttributeError: 'NoneType' object has no attribute 'id'
+
+```
+boi at 2017-06-07 07:01:46.927059: Called by: Zerebos#7790 (ID: 249746236008169473) in Channel: dev_room (ID: 320760937231548426)
+Guild: Zere's Place (ID: 292141134614888448). More info: ```py
+Traceback (most recent call last):
+  File "C:\Users\Zack\AppData\Local\Programs\Python\Python36-32\lib\site-packages\discord\ext\commands\core.py", line 50, in wrapped
+    ret = yield from coro(*args, **kwargs)
+  File "C:\Users\Zack\PycharmProjects\CurrentDevBot\cogs\boi.py", line 33, in boi
+    await self.bot.say(Boi._boi_list())
+  File "C:\Users\Zack\PycharmProjects\CurrentDevBot\cogs\boi.py", line 54, in _boi_list
+    fileList = os.listdir(Boi.path + '/boi')
+FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\Zack\\PycharmProjects\\CurrentDevBot\\cogs/boi'
+
+```
+addboi at 2017-06-07 07:09:36.788934: Called by: Zerebos#7790 (ID: 249746236008169473) in Channel: dev_room (ID: 320760937231548426)
+Guild: Zere's Place (ID: 292141134614888448). More info: ```py
+Traceback (most recent call last):
+  File "C:\Users\Zack\AppData\Local\Programs\Python\Python36-32\lib\site-packages\discord\ext\commands\core.py", line 50, in wrapped
+    ret = yield from coro(*args, **kwargs)
+  File "C:\Users\Zack\PycharmProjects\CurrentDevBot\cogs\boi.py", line 87, in addboi
+    'Connection': 'keep-alive'})
+  File "C:\Users\Zack\AppData\Local\Programs\Python\Python36-32\lib\urllib\request.py", line 329, in __init__
+    self.full_url = url
+  File "C:\Users\Zack\AppData\Local\Programs\Python\Python36-32\lib\urllib\request.py", line 355, in full_url
+    self._parse()
+  File "C:\Users\Zack\AppData\Local\Programs\Python\Python36-32\lib\urllib\request.py", line 384, in _parse
+    raise ValueError("unknown url type: %r" % self.full_url)
+ValueError: unknown url type: 'foo'
+
+```
+addboi at 2017-06-07 07:13:15.319433: Called by: Zerebos#7790 (ID: 249746236008169473) in Channel: dev_room (ID: 320760937231548426)
+Guild: Zere's Place (ID: 292141134614888448). More info: ```py
+Traceback (most recent call last):
+  File "C:\Users\Zack\AppData\Local\Programs\Python\Python36-32\lib\site-packages\discord\ext\commands\core.py", line 50, in wrapped
+    ret = yield from coro(*args, **kwargs)
+  File "C:\Users\Zack\PycharmProjects\CurrentDevBot\cogs\boi.py", line 101, in addboi
+    await self.bot.responses.success(message="Your boi " + name + " has been added.", image=url)
+  File "C:\Users\Zack\PycharmProjects\CurrentDevBot\discordbot\messages.py", line 44, in success
+    return await self.basic(title=title, message=message, color=self.bot.colors.success.value, **params)
+TypeError: basic() got multiple values for keyword argument 'message'
+
+```
+help at 2017-06-07 07:38:17.565356: Called by: Zerebos#7790 (ID: 249746236008169473) in Channel: dev_room (ID: 320760937231548426)
+Guild: Zere's Place (ID: 292141134614888448). More info: ```py
+Traceback (most recent call last):
+  File "C:\Users\Zack\AppData\Local\Programs\Python\Python36-32\lib\site-packages\discord\ext\commands\core.py", line 50, in wrapped
+    ret = yield from coro(*args, **kwargs)
+  File "C:\Users\Zack\PycharmProjects\CurrentDevBot\discordbot\discordbot.py", line 33, in _default_help_command
+    pages = bot.formatter.format_help_for(ctx, command)
+  File "C:\Users\Zack\AppData\Local\Programs\Python\Python36-32\lib\site-packages\discord\ext\commands\formatter.py", line 291, in format_help_for
+    return self.format()
+  File "C:\Users\Zack\PycharmProjects\CurrentDevBot\discordbot\embeds.py", line 97, in format
+    {"name": "More Info", "value": self.command.help.replace(self.command.short_doc, "").format(prefix=self.clean_prefix),
+KeyError: 'filename'
+
+```

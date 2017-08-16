@@ -86,6 +86,7 @@ class BoiBot:
             await self.bot.responses.failure(message="You did not provide a filename")
             return
 
+        name = name.lower()
         url = link
 
         if ctx.message.attachments:

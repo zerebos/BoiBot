@@ -2,4 +2,6 @@ boi/
 data/
 logs/
 submissions/
-settings.json
+node_modules/
+config.json
+*.sqlite3

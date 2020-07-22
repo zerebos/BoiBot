@@ -11,7 +11,7 @@ module.exports = class extends Command {
     }
     
     async run(msg) {
-        const link = await this.client.generateInvite(["SEND_MESSAGES", "ADD_REACTIONS", "USE_EXTERNAL_EMOJIS", "USE_VAD", "VIEW_CHANNEL"]);
+        const link = await this.client.generateInvite(["SEND_MESSAGES", "ADD_REACTIONS", "USE_EXTERNAL_EMOJIS", "USE_VAD", "VIEW_CHANNEL", "EMBED_LINKS", "USE_EXTERNAL_EMOJIS", "ATTACH_FILES"]);
         await msg.author.send({embed: {title: "Thanks for inviting me!", description: `Click this link to add me to your server: ${link}`}});
     }
 };

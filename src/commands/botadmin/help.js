@@ -36,7 +36,7 @@ module.exports = class extends Command {
 
         const helpEmbed = new MessageEmbed();
         //__**${showAll ? "All commands" : `Available commands in ${msg.guild || "this DM"}`}**__
-        helpEmbed.setTitle(`${this.client.user.username} Help`);
+        helpEmbed.setAuthor(`${this.client.user.username} Help`, this.client.user.displayAvatarURL());
         helpEmbed.setDescription(description.join("\n"));
 
         const availableGroups = groups.filter(grp => grp.commands.some(cmd => !cmd.hidden && (showAll || cmd.isUsable(msg))));

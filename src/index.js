@@ -8,13 +8,13 @@ const Commando = require("discord.js-commando");
 const config = require("../config");
 
 
-
 const client = new Commando.Client({
     commandPrefix: config.defaultPrefix,
     owner: config.owner,
     fetchAllMembers: config.fetchAllMembers || false,
     description: config.description,
     invite: config.invite,
+    github: config.github,
     presence: {
         status: "online",
         activity: {
@@ -25,7 +25,6 @@ const client = new Commando.Client({
 
 client.boiPath = path.resolve(__dirname, "..", "boi");
 client.submissionPath = path.resolve(__dirname, "..", "submissions");
-
 
 client.registry.registerGroups([
     ["botadmin", "Bot Admin"],

@@ -1,6 +1,6 @@
 import discordbot
 import os, re
-import random
+import random, string
 import mimetypes
 import glob, aiohttp
 
@@ -53,6 +53,10 @@ class BoiBot:
         """Prints a list of all the available Boi memes."""
         await self.bot.responses.basic(title="Current Bois:", message=BoiBot._boi_list())
 
+    def randomword(self, length):
+        letters = string.ascii_lowercase
+        return ''.join(random.choice(letters) for i in range(length))
+
     @discordbot.commands.command(pass_context=True, aliases=['addboi'])
     async def add(self, ctx, name=None, link=None):
         """Either upload an image, or provide URL and then filename
@@ -72,7 +76,7 @@ class BoiBot:
             await self.bot.responses.failure(message="You did not provide a filename")
             return
 
-        name = name.lower()
+        file_name = name.lower()
         url = link
 
         if ctx.message.attachments:
@@ -84,21 +88,21 @@ class BoiBot:
 
         for file in glob.glob(SUBMISSION_FOLDER+"/*"):
             file = file.replace('\\', "/")
-            if re.match(r'\.?/?\\?'+SUBMISSION_FOLDER+r'/?\\?' + name + r'\..*', file):
-                await self.bot.responses.failure(message="The boi \"{}\" already exists!".format(name))
-                return
+            if re.match(r'\.?/?\\?'+SUBMISSION_FOLDER+r'/?\\?' + file_name + r'\..*', file):
+                file_name = file_name + '-' + ''.join(random.choice(string.ascii_lowercase) for i in range(6))
+                break
 
-        result = await self.downloadImage(url, SUBMISSION_FOLDER, name, self.bot.loop)
+        result = await self.downloadImage(url, SUBMISSION_FOLDER, file_name, self.bot.loop)
 
         if not result['canAccessURL']:
             await self.bot.responses.failure(message="The URL provided was invalid.")
         elif not result['isImage']:
             await self.bot.responses.failure(message="The URL was not to a direct image.")
         elif result['fileSaved']:
-            await self.bot.responses.success(title="Boi Submitted", message="Your boi \"" + name + "\" has been submitted for approval.", thumbnail=url)
+            await self.bot.responses.success(title="Boi Submitted", message="Your boi \"" + name.lower() + "\" has been submitted for approval.", thumbnail=url)
             await self.bot.responses.basic(destination=await self.bot.get_user_info(self.bot.config.get('meta', {}).get('owner', "249746236008169473")),
                                            author=str(ctx.message.author), author_img=ctx.message.author.avatar_url,
-                                           title="Submission Received", message="A new boi submission \"" + name + "\" has been received.")
+                                           title="Submission Received", message="A new boi submission \"" + name.lower() + "\" has been received.")
         else:
             await self.bot.responses.failure(message="Something went wrong ¯\_(ツ)_/¯")
 
@@ -140,17 +144,22 @@ class BoiBot:
 
         image = image.lower()
 
-        for file in glob.glob(SUBMISSION_FOLDER+'/*'):
-            if re.match(r'\.?/?\\?'+SUBMISSION_FOLDER+r'/?\\?' + image + r'\..*', file):
+        for sub_file in glob.glob(SUBMISSION_FOLDER+'/*'):
+            if re.match(r'\.?/?\\?'+SUBMISSION_FOLDER+r'/?\\?' + image + r'\..*', sub_file):
                 new_name = image if new_name == "" else new_name
-                os.rename(file, BOI_FOLDER + '/' + new_name + '.' + file.split('.')[-1])
 
+                for file in glob.glob(BOI_FOLDER + "/*"):
+                    file = file.replace('\\', "/")
+                    if re.match(r'\.?/?\\?' + BOI_FOLDER + r'/?\\?' + new_name + r'\..*', file):
+                        await self.bot.responses.failure(message="The boi \"{}\" already exists!".format(new_name))
+                        return
+
+                os.rename(sub_file, BOI_FOLDER + '/' + new_name + '.' + sub_file.split('.')[-1])
                 await self.bot.responses.success(title="Submission Approved",
                                                  message="The submission \"" + new_name + "\" has been approved.")
                 return
 
         await self.bot.responses.failure(message="The submission \"" + image + "\" does not exist.")
-
 
     @discordbot.commands.command(pass_context=True, aliases=['subs'])
     @discordbot.checks.is_owner()

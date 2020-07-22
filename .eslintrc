@@ -28,6 +28,7 @@
         "prefer-const": "error"
     },
     "globals": {
-        "Set": false
+        "Set": false,
+        "Promise": false
     }
 }

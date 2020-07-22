@@ -23,6 +23,8 @@ const client = new Commando.Client({
     }
 });
 
+client.boiPath = path.resolve(__dirname, "..", "boi");
+client.submissionPath = path.resolve(__dirname, "..", "submissions");
 
 
 client.registry.registerGroups([
@@ -31,7 +33,7 @@ client.registry.registerGroups([
     ["assignableroles", "Assignable Roles"],
     ["moderation", "Moderation"],
     ["reactions", "Auto Reactions"],
-	["boibot", "BoiBot"]
+    ["boibot", "BoiBot"]
 ]);
 
 client.registry.registerDefaultTypes();
@@ -46,8 +48,6 @@ client.registry.registerDefaultCommands({
 
 client.registry.registerCommandsIn(path.join(__dirname, "commands"));
 
-client.setProvider(
-    sqlite.open(path.join(__dirname, "..", "settings.sqlite3")).then(db => new Commando.SQLiteProvider(db))
-).catch(console.error);
+client.setProvider(sqlite.open(path.join(__dirname, "..", "settings.sqlite3")).then(db => new Commando.SQLiteProvider(db))).catch(console.error);
 
 client.login(config.token);

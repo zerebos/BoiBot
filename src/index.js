@@ -15,6 +15,7 @@ const client = new Commando.Client({
     description: config.description,
     invite: config.invite,
     github: config.github,
+    messageCacheMaxSize: 10,
     presence: {
         status: "online",
         activity: {

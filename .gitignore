@@ -3,5 +3,5 @@ data/
 logs/
 submissions/
 node_modules/
-config.json
+config.js
 *.sqlite3

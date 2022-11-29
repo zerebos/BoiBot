@@ -31,7 +31,7 @@ module.exports = {
                 .setTitle("Available Bois")
                 .setDescription(files.map(n => `\`${n.split(".")[0]}\``).join(", "));
 
-        if (interaction.user.id != config.owner) return await interaction.reply({embeds: [listingEmbed], ephemeral: true});
+        if (interaction.user.id != config.owner) return await interaction.editReply({embeds: [listingEmbed], ephemeral: true});
 
         const row = new ActionRowBuilder()
                 .addComponents(

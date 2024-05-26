@@ -5,3 +5,4 @@ submissions/
 node_modules/
 config.js
 *.sqlite3
+.env

@@ -3,12 +3,12 @@ const path = require("node:path");
 
 // Require the necessary discord.js classes
 const {Client, Collection, GatewayIntentBits} = require("discord.js");
-const {token} = require("../config");
+
+require("dotenv").config();
+
 
 // Create a new client instance
 const client = new Client({intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages]});
-
-client.commands = new Collection();
 
 client.commands = new Collection();
 const commandsPath = path.join(__dirname, "commands");
@@ -37,4 +37,4 @@ for (const file of eventFiles) {
 }
 
 // Login to Discord with your client's token
-client.login(token);
+client.login(process.env.BOT_TOKEN);

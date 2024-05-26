@@ -8,7 +8,6 @@ const rm = promisify(fs.rm);
 
 const {SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle} = require("discord.js");
 
-const config = require("../../config");
 
 const boiPath = path.resolve(__dirname, "..", "..", "boi");
 
@@ -31,7 +30,7 @@ module.exports = {
                 .setTitle("Available Bois")
                 .setDescription(files.map(n => `\`${n.split(".")[0]}\``).join(", "));
 
-        if (interaction.user.id != config.owner) return await interaction.editReply({embeds: [listingEmbed], ephemeral: true});
+        if (interaction.user.id != process.env.BOT_OWNER_ID) return await interaction.editReply({embeds: [listingEmbed], ephemeral: true});
 
         const row = new ActionRowBuilder()
                 .addComponents(

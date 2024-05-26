@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node .",
     "deploy": "node scripts/deploy-commands.js",
-    "clear": "node scripts/clear-commands.js"
+    "clear": "node scripts/clear-commands.js",
+    "validate": "node scripts/validate-env.js"
   },
   "author": "Zack Rauen",
   "license": "MIT",
@@ -18,6 +19,7 @@
     "@discordjs/rest": "^1.1.0",
     "@keyv/sqlite": "^3.5.3",
     "discord.js": "^14.11.0",
+    "dotenv": "^16.4.5",
     "keyv": "^4.4.1",
     "sqlite3": "^5.0.11"
   }

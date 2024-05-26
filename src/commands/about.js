@@ -3,6 +3,7 @@ const {promisify} = require("util");
 const exec = promisify(childProcess.exec);
 const path = require("path");
 const Keyv = require("keyv");
+// TODO: Create a better way to access the sqlite db without relative pathing
 const stats = new Keyv("sqlite://" + path.resolve(__dirname, "..", "..", "settings.sqlite3"), {namespace: "stats"});
 
 const {SlashCommandBuilder, EmbedBuilder, ChannelType, ActionRowBuilder, ButtonBuilder, ButtonStyle} = require("discord.js");
@@ -21,13 +22,20 @@ module.exports = {
     async execute(interaction) {
         await interaction.deferReply();
         const aboutEmbed = new EmbedBuilder();
-        aboutEmbed.setAuthor({name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL()});
-        aboutEmbed.setFooter({text: "Made with discord.js", iconURL: "https://i.imgur.com/jt10lJI.png"});
-        aboutEmbed.setTimestamp(interaction.client.readyAt);
+
         aboutEmbed.setColor("Blue");
+        aboutEmbed.setAuthor({name: interaction.client.user.username, iconURL: interaction.client.user.displayAvatarURL()});
+        // TODO: I think it's overkill but re-evaluate later
+        // aboutEmbed.setImage(interaction.client.user.bannerURL());
+
+        const owner = await interaction.client.users.fetch(process.env.BOT_OWNER_ID);
+        if (owner) aboutEmbed.setFooter({text: `Created by @${owner.username}`, iconURL: owner.displayAvatarURL()});
+        aboutEmbed.setTimestamp(interaction.client.readyAt);
+
+
         const addField = (n,v,i) => aboutEmbed.addFields({name: n, value: v, inline: i ?? false});
 
-        if (process.env.BOT_DESCRIPTION) addField(`About ${interaction.client.user.username}`, process.env.BOT_DESCRIPTION);
+        if (process.env.BOT_DESCRIPTION) addField(`About`, process.env.BOT_DESCRIPTION);
 
         // git show -s -3 --format="%s (%cr)"
         try {
@@ -35,17 +43,28 @@ module.exports = {
             if (gitExists.stderr) throw new Error(gitExists.stderr);
             const gitInfo = await exec(`git show -s -3 --format="%s (%cr)"`);
             if (gitInfo.stderr) throw new Error(gitExists.stderr);
-            addField(`Latest Changes`, gitInfo.stdout.trim());
+            addField(`Latest Changes`, gitInfo.stdout.trim()); // To add bullets .split("\n").map(l => `- ${l}`).join("\n")
         }
         catch (err) {
-            // Git not installed or something, should probably log it.
+            console.error(err);
         }
 
-        const owner = await interaction.client.users.fetch(process.env.BOT_OWNER_ID);
-        if (owner) addField(`Created By`, owner.tag, true);
-        if (process.env.SUPPORT_SERVER_URL) addField(`Support Server`, `[Click Here!](${process.env.SUPPORT_SERVER_URL})`, true);
-        if (process.env.GITHUB_URL) addField(`GitHub`, `[Click Here!](${process.env.GITHUB_URL})`, true);
-        if (process.env.TOPGG_ID) addField(`Top.gg`, `[Click Here!](https://top.gg/bot/${process.env.TOPGG_ID})`, true);
+
+        const links = [];
+        if (process.env.SUPPORT_SERVER_URL) links.push({label: "Support Server", url: process.env.SUPPORT_SERVER_URL});
+        if (process.env.GITHUB_URL) links.push({label: "GitHub", url: process.env.GITHUB_URL});
+        if (process.env.TOPGG_ID) links.push({label: "Top.gg", url: `https://top.gg/bot/${process.env.TOPGG_ID}`});
+
+        // Round up to an even number of fields for a row
+        // 3 = max fields per row
+        const modulo = links.length % 3;
+        const maxFields = modulo ? links.length + (3 - modulo) : links.length;
+        for (let l = 0; l < maxFields; l++) {
+            const fieldTitle = l % 3 === 0 ? "Links" : "​";
+            const fieldValue = l < links.length ? `[${links[l].label}](${links[l].url})` : "​";
+            addField(fieldTitle, fieldValue, true);
+        }
+
 
         let servingText = `${interaction.client.guilds.cache.size.toLocaleString()} Servers\n`;
         servingText += `${interaction.client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0).toLocaleString()} Users`;

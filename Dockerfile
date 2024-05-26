@@ -1,6 +1,12 @@
 ARG NODE_VERSION=18
 FROM node:${NODE_VERSION}-alpine as base
 
+LABEL org.opencontainers.image.title "BoiBot"
+LABEL org.opencontainers.image.description "Discord bot for boi memes."
+LABEL org.opencontainers.image.url="https://github.com/rauenzi/BoiBot"
+LABEL org.opencontainers.image.source="https://github.com/rauenzi/BoiBot"
+LABEL org.opencontainers.image.licenses="MIT"
+
 # Add git for showing latest changes in about
 # TODO: find another way
 RUN apk add --update git

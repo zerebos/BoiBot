@@ -30,3 +30,4 @@ else if (!snowflakeRegex.test(process.env.BOT_OWNER_ID)) {
 // TODO: add validation for other varibles like absolute URLs and IDs
 // or potentially make that a separate function in the main bot and use
 // this script solely to check for the REQUIRED variables
+// also consider checking for necessary folders

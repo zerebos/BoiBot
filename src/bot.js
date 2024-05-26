@@ -2,13 +2,16 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 // Require the necessary discord.js classes
-const {Client, Collection, GatewayIntentBits} = require("discord.js");
+const {Client, Collection, GatewayIntentBits, ActivityType} = require("discord.js");
 
 require("dotenv").config();
 
 
 // Create a new client instance
-const client = new Client({intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages]});
+const client = new Client({
+    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
+    presence: {activities: [{name: "for memes", type: ActivityType.Watching}]}
+});
 
 client.commands = new Collection();
 const commandsPath = path.join(__dirname, "commands");

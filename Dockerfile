@@ -30,6 +30,8 @@ COPY --link . /app
 
 # Setup some default files
 RUN touch settings.sqlite3
+RUN mkdir boi
+RUN mkdir submissions
 
 # Refresh commands when starting the bot
 CMD npm run validate && npm run clear && npm run deploy && npm run start

@@ -13,6 +13,7 @@
 **/node_modules
 **/*.sqlite3
 **/eslint.config.js
+boi
 .revspin
 LICENSE
 README.md

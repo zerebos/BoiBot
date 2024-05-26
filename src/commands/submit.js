@@ -10,7 +10,6 @@ const readdir = promisify(fs.readdir);
 
 const {SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle} = require("discord.js");
 
-const config = require("../../config");
 
 const boiPath = path.resolve(__dirname, "..", "..", "boi");
 
@@ -32,7 +31,7 @@ module.exports = {
             return await interaction.reply({embeds: [(new EmbedBuilder()).setColor("Red").setDescription("Only image submissions are allowed at this time!")]});
         }
 
-        const user = await interaction.client.users.fetch(config.owner);
+        const user = await interaction.client.users.fetch(process.env.BOT_OWNER_ID);
         const submissionEmbed = new EmbedBuilder()
             .setTitle("New Submission")
             .setColor("Blue")

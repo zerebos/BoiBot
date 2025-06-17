@@ -1,40 +1,38 @@
-const fs = require("fs");
-const path = require("path");
+import fs from "fs/promises"
+import path from "path";
+import {type AutocompleteInteraction, type ChatInputCommandInteraction, SlashCommandBuilder, AttachmentBuilder, ApplicationIntegrationType, InteractionContextType} from "discord.js";
+import {fileURLToPath} from "url";
 
-const {promisify} = require("util");
-const readdir = promisify(fs.readdir);
 
-const {SlashCommandBuilder, AttachmentBuilder} = require("discord.js");
-
+// TODO: move all images to the database
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const boiPath = path.resolve(__dirname, "..", "..", "boi");
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
         .setName("boi")
         .setDescription("Gives a random *breath in*...BOI meme!")
         .addStringOption(option =>
             option.setName("boi")
                 .setDescription("Which boi to use")
-                .setAutocomplete(true)),
+                .setAutocomplete(true))
+        .setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall)
+        .setContexts(InteractionContextType.Guild, InteractionContextType.BotDM, InteractionContextType.PrivateChannel),
 
-    /** 
-     * @param interaction {import("discord.js").CommandInteraction}
-     */
-    async execute(interaction) {
+
+    async execute(interaction: ChatInputCommandInteraction) {
         await interaction.deferReply();
         const desired = interaction.options.getString("boi", false);
-        const files = await readdir(boiPath);
+        const files = await fs.readdir(boiPath);
         const file = files.find(v => v.startsWith(`${desired}.`)) || files[Math.floor(Math.random() * files.length)];
         const pathToFile = path.resolve(boiPath, file);
         const attachment = new AttachmentBuilder(pathToFile);
         await interaction.editReply({files: [attachment]});
     },
 
-    /** 
-     * @param interaction {import("discord.js").AutocompleteInteraction}
-     */
-    async autocomplete(interaction) {
-        const files = await readdir(boiPath);
+    async autocomplete(interaction: AutocompleteInteraction) {
+        const files = await fs.readdir(boiPath);
         const focusedValue = interaction.options.getFocused();
         const choices = files.map(n => n.split(".")[0]);
         const filtered = choices.filter(choice => choice.startsWith(focusedValue)).slice(0, 25);

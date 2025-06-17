@@ -1,26 +1,24 @@
-const fs = require("fs");
-const path = require("path");
-
-const {promisify} = require("util");
-const readdir = promisify(fs.readdir);
-const rename = promisify(fs.rename);
-const rm = promisify(fs.rm);
-
-const {SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle} = require("discord.js");
+import path from "path";
+import {readdir, rename, rm} from "fs/promises";
+import {SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle, ApplicationIntegrationType, InteractionContextType, ChatInputCommandInteraction, ButtonInteraction, ModalSubmitInteraction, MessageFlags} from "discord.js";
+import {fileURLToPath} from "url";
 
 
+// TODO: move all images to the database
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const boiPath = path.resolve(__dirname, "..", "..", "boi");
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("bois")
-        .setDescription("Gives a list of all available bois!"),
+        .setDescription("Gives a list of all available bois!")
+        .setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall)
+        .setContexts(InteractionContextType.Guild, InteractionContextType.BotDM, InteractionContextType.PrivateChannel),
 
-    /** 
-     * @param interaction {import("discord.js").ChatInputCommandInteraction}
-     */
-    async execute(interaction) {
-        await interaction.deferReply({ephemeral: true});
+
+    async execute(interaction: ChatInputCommandInteraction) {
+        await interaction.deferReply({flags: MessageFlags.Ephemeral});
 
         const files = await readdir(boiPath);
 
@@ -30,9 +28,9 @@ module.exports = {
                 .setTitle("Available Bois")
                 .setDescription(files.map(n => `\`${n.split(".")[0]}\``).join(", "));
 
-        if (interaction.user.id != process.env.BOT_OWNER_ID) return await interaction.editReply({embeds: [listingEmbed], ephemeral: true});
+        if (interaction.user.id != process.env.BOT_OWNER_ID) return await interaction.editReply({embeds: [listingEmbed]});
 
-        const row = new ActionRowBuilder()
+        const row = new ActionRowBuilder<ButtonBuilder>()
                 .addComponents(
                     new ButtonBuilder()
                         .setCustomId("bois-rename")
@@ -44,13 +42,10 @@ module.exports = {
                         .setStyle(ButtonStyle.Danger),
         );
 
-        await interaction.editReply({embeds: [listingEmbed], components: [row], ephemeral: true});
+        await interaction.editReply({embeds: [listingEmbed], components: [row]});
     },
 
-    /** 
-     * @param interaction {import("discord.js").ButtonInteraction}
-     */
-    async button(interaction) {
+    async button(interaction: ButtonInteraction) {
         const id = interaction.customId.split("-")[1];
         const isRename = id === "rename";
 
@@ -58,18 +53,15 @@ module.exports = {
         const currentInput = new TextInputBuilder().setCustomId("current").setLabel("Meme to rename").setStyle(TextInputStyle.Short);
         const newInput = new TextInputBuilder().setCustomId("new").setLabel("New name for meme").setStyle(TextInputStyle.Short);
         const deleteInput = new TextInputBuilder().setCustomId("delete").setLabel("Meme to delete").setStyle(TextInputStyle.Short);
-        const row = new ActionRowBuilder().addComponents(isRename ? currentInput : deleteInput);
-        const row2 = new ActionRowBuilder().addComponents(newInput);
+        const row = new ActionRowBuilder<TextInputBuilder>().addComponents(isRename ? currentInput : deleteInput);
+        const row2 = new ActionRowBuilder<TextInputBuilder>().addComponents(newInput);
         modal.addComponents(row);
         if (isRename) modal.addComponents(row2);
 
         await interaction.showModal(modal);
     },
 
-    /** 
-     * @param interaction {import("discord.js").ModalSubmitInteraction}
-     */
-     async modal(interaction) {
+    async modal(interaction: ModalSubmitInteraction) {
         const id = interaction.customId.split("-")[1];
         const isRename = id === "rename";
 
@@ -77,10 +69,7 @@ module.exports = {
         return await this.rename(interaction);
     },
 
-    /** 
-     * @param interaction {import("discord.js").ModalSubmitInteraction}
-     */
-    async rename(interaction) {
+    async rename(interaction: ModalSubmitInteraction) {
         const currentName = interaction.fields.getTextInputValue("current");
         const newName = interaction.fields.getTextInputValue("new");
 
@@ -99,10 +88,7 @@ module.exports = {
         await interaction.reply({content: `\`${currentName}\` successfully renamed to \`${newName}\``, ephemeral: true});
     },
 
-    /** 
-     * @param interaction {import("discord.js").ModalSubmitInteraction}
-     */
-    async delete(interaction) {
+    async delete(interaction: ModalSubmitInteraction) {
         const currentName = interaction.fields.getTextInputValue("delete");
 
         // Check if a meme with that name exists

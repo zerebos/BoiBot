@@ -1,7 +1,8 @@
 import fs from "fs/promises"
 import path from "path";
-import {type AutocompleteInteraction, type ChatInputCommandInteraction, SlashCommandBuilder, AttachmentBuilder, ApplicationIntegrationType, InteractionContextType} from "discord.js";
+import {type AutocompleteInteraction, type ChatInputCommandInteraction, SlashCommandBuilder, AttachmentBuilder, ApplicationIntegrationType, InteractionContextType, MessageFlags} from "discord.js";
 import {fileURLToPath} from "url";
+import {userInstallNotices} from "../db";
 
 
 // TODO: move all images to the database
@@ -29,6 +30,12 @@ export default {
         const pathToFile = path.resolve(boiPath, file);
         const attachment = new AttachmentBuilder(pathToFile);
         await interaction.editReply({files: [attachment]});
+
+        const hasShownNotice = await userInstallNotices.get(interaction.user.id);
+        if (!hasShownNotice) {
+            await userInstallNotices.set(interaction.user.id, true);
+            await interaction.followUp({content: `**New!** Add BoiBot to your account for DM access and cross-server profiles!\n\nClick my profile → "Add App" → "Add to My Apps"`, flags: MessageFlags.Ephemeral});
+        }
     },
 
     async autocomplete(interaction: AutocompleteInteraction) {

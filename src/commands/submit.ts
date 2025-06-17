@@ -14,7 +14,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const boiPath = path.resolve(__dirname, "..", "..", "boi");
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
         .setName("submit")
         .setDescription("Submit your own meme!")

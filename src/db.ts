@@ -13,7 +13,5 @@ const sqliteUri = "sqlite://" + path.resolve(__dirname, "..", "settings.sqlite3"
 const sqliteStore = new Sqlite(sqliteUri);
 
 // Export pre-configured database instances sharing the same store
-export const profiles = new Keyv(sqliteStore, {namespace: "profiles"});
 export const stats = new Keyv(sqliteStore, {namespace: "stats"});
-export const revspin = new Keyv(sqliteStore, {namespace: "revspin"}); // TODO: use this instead of the client.revspin cache
 export const userInstallNotices = new Keyv(sqliteStore, {namespace: "userInstallNotices"});

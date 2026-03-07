@@ -3,6 +3,7 @@ data/
 logs/
 submissions/
 node_modules/
+package-lock.json
 config.js
 *.sqlite3
 .env
